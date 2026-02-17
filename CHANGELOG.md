@@ -1,5 +1,9 @@
 # Changelog
 
+1.9.1 - 2026-02-17
+
+- changed: upadte manifest file generator
+
 1.9.0 - 2024-12-05
 
 - added: auto-refresh mode, refresh check after a replace. allowing to work way faster, alternating click and ctrl+click without moving mouse.

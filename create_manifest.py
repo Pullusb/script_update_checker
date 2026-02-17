@@ -54,6 +54,16 @@ def bl_dict_to_manifest(bl_dict):
 
     text_list.append('type = "add-on"')
     
+    text_list.append(f'website = {bl_dict.get("doc_url")}')
+    
+    text_list.append('')
+    text_list.append('# https://docs.blender.org/manual/en/dev/advanced/extensions/tags.htmll')
+    # text_list.append(f'tags = ["Animation", "Sequencer"]')
+    text_list.append(f'tags = ["{bl_dict.get("category")}",]')
+
+    text_list.append('blender_version_min = "4.2.0"')
+    text_list.append('license = ["SPDX:GPL-3.0-or-later"]')
+
     text_list.append("""
 # Optional: add-ons can list which resources they will require and description:
 # * "files" (for access of any filesystem operations)
@@ -61,23 +71,13 @@ def bl_dict_to_manifest(bl_dict):
 # * "clipboard" (to read and/or write the system clipboard)
 # * "camera" (to capture photos and videos)
 # * "microphone" (to capture audio)
-# permissions = ["files", "network"])
 # [permissions]
 # network = "Automatic download"
 # files = "Write json data"
 """)
 
-    text_list.append(f'website = {bl_dict.get("doc_url")}')
-    
-    text_list.append('')
-    text_list.append('# https://docs.blender.org/manual/en/dev/extensions/tags.html')
-    # text_list.append(f'tags = ["Animation", "Sequencer"]')
-    text_list.append(f'tags = ["{bl_dict.get("category")}",]')
-
-    text_list.append('blender_version_min = "4.2.0"')
-    text_list.append('license = ["SPDX:GPL-2.0-or-later"]')
-
-    text_list.append('')
+    # text_list.append('')
+    text_list.append('# Manifest template: https://docs.blender.org/manual/en/dev/advanced/extensions/getting_started.html#manifest')
     text_list.append('# Copyright - Optional: required by some licenses, can have multiple line')
     text_list.append(f'copyright = ["{strftime("%Y")} {bl_dict.get("author")}",]')
 
