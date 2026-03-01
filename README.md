@@ -33,7 +33,7 @@ The examples in [using attribute page](https://docs.blender.org/api/4.3/bpy.type
 The [architecture internal attribute page](https://developer.blender.org/docs/features/grease_pencil/architecture/#internal-attributes) depicts the structure of Grease pencil V3
 
 
-## Extra migration helpers
+## Extra GP migration helpers
 
 The addons works well with the search & replace to update parts of yours script, but of course it does not cover all the things to change.
 
@@ -113,6 +113,38 @@ List of other modifier type with name changed:
 | Remove Stroke    | `strokes.remove(` | `drawing.remove_strokes(indices=(0,))`                              | Not using a stroke object, but a list of stroke indices in drawing.  |
 | Add strokes      | `strokes.new()`   | `drawing.add_strokes([0])`                                          | int sequence: [2,4] will add one stroke with 2 points and one with 4 |
 
+
+## Vse API migration from Blender 4.5 to 5.0
+
+in VSE, sequences were renamed strips in Blender 5.0
+
+`sequence_editor.sequences.new...` -> `sequence_editor.strips.new..`
+`sequences_all` -> `strips_all`
+
+| Search              | Replace    |
+| ------------------- | ---------- |
+| `\.sequences(?!\.)` | `.strips`  |
+| `\.sequences\.`     | `.strips.` |
+ 
+To make a version agnostic approach, use wrapper function as follow to access seqeunces/strips:
+
+```python
+def vse_strips(vse=None):
+    """return vse strips, version agnostic"""
+    vse = vse or bpy.context.scene.sequence_editor
+    if getattr(vse, "strips", None): # bpy.app.version >= (5,0,0):
+        return vse.strips
+    else:
+        return vse.sequences
+
+def vse_strips_all(vse=None):
+    """return vse strips (recursive in meta strips), version agnostic"""
+    vse = vse or bpy.context.scene.sequence_editor
+    if getattr(vse, "strips_all", None): # bpy.app.version >= (5,0,0):
+        return vse.strips_all
+    else:
+        return vse.sequences_all
+```
 
 
 ## About Script Update Checker addon
